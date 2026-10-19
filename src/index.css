@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-primary: #16a34a;
+    --brand-dark: #15803d;
+    --brand-light: #22c55e;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  input, textarea {
+    user-select: text;
+  }
+}
+
+/* Mobile-First Safe Area Helpers */
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+}
+
+.pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0.5rem));
+}
+
+.bottom-nav-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0.5rem));
+}
+
+/* Duolingo / Nintendo style tactile 3D buttons with 44px+ mobile touch targets */
+.btn-tactile-primary {
+  @apply relative inline-flex items-center justify-center min-h-[44px] font-bold tracking-wide rounded-2xl transition-all duration-75 text-white bg-brand-500 border-b-4 border-brand-700 hover:bg-brand-400 active:border-b-0 active:translate-y-1 shadow-sm select-none touch-manipulation cursor-pointer;
+}
+
+.btn-tactile-secondary {
+  @apply relative inline-flex items-center justify-center min-h-[44px] font-bold tracking-wide rounded-2xl transition-all duration-75 text-slate-700 bg-white border border-slate-200 border-b-4 border-b-slate-300 hover:bg-slate-50 active:border-b active:translate-y-1 shadow-sm select-none touch-manipulation cursor-pointer;
+}
+
+.btn-tactile-amber {
+  @apply relative inline-flex items-center justify-center min-h-[44px] font-bold tracking-wide rounded-2xl transition-all duration-75 text-white bg-energy-500 border-b-4 border-energy-700 hover:bg-energy-400 active:border-b-0 active:translate-y-1 shadow-sm select-none touch-manipulation cursor-pointer;
+}
+
+.btn-tactile-purple {
+  @apply relative inline-flex items-center justify-center min-h-[44px] font-bold tracking-wide rounded-2xl transition-all duration-75 text-white bg-campaign-600 border-b-4 border-campaign-800 hover:bg-campaign-500 active:border-b-0 active:translate-y-1 shadow-sm select-none touch-manipulation cursor-pointer;
+}
+
+.btn-tactile-blue {
+  @apply relative inline-flex items-center justify-center min-h-[44px] font-bold tracking-wide rounded-2xl transition-all duration-75 text-white bg-mana-600 border-b-4 border-mana-800 hover:bg-mana-500 active:border-b-0 active:translate-y-1 shadow-sm select-none touch-manipulation cursor-pointer;
+}
+
+/* Card surfaces with subtle game depth */
+.game-panel {
+  @apply bg-white rounded-3xl border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.02)];
+}
+
+.game-panel-interactive {
+  @apply bg-white rounded-3xl border border-slate-200/80 shadow-[0_4px_0_#e2e8f0] transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_0_#cbd5e1] active:translate-y-1 active:shadow-none;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

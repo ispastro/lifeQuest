@@ -1,0 +1,64 @@
+{
+  "id": "com.lifequest.app",
+  "short_name": "LifeQuest",
+  "name": "LifeQuest — Gamified Productivity PWA",
+  "description": "Turn weekly planning, daily execution, engineering mastery, and personal consistency into an engaging game world.",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "background_color": "#0f172a",
+  "theme_color": "#16a34a",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "window-controls-overlay"],
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "games", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Today's Missions",
+      "short_name": "Missions",
+      "description": "View today's daily triad quests",
+      "url": "/?tab=home",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "7-Day Journey",
+      "short_name": "Journey",
+      "description": "Inspect your weekly adventure map",
+      "url": "/?tab=journey",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Weekly Planning Studio",
+      "short_name": "Planning",
+      "description": "Plan next week's objectives and stages",
+      "url": "/?tab=planning",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Rewards Bazaar",
+      "short_name": "Bazaar",
+      "description": "Redeem gems for real-life treats",
+      "url": "/?tab=shop",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

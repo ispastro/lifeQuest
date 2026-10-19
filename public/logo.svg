@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#15803d"/>
+    </linearGradient>
+    <linearGradient id="swordGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#15803d" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Shield base -->
+  <path d="M50 8 L85 24 V50 C85 72 50 92 50 92 C50 92 15 72 15 50 V24 L50 8 Z" fill="url(#shieldGrad)" filter="url(#glow)"/>
+  <!-- Inner shield highlight -->
+  <path d="M50 14 L78 28 V48 C78 66 50 82 50 82 C50 82 22 66 22 48 V28 L50 14 Z" fill="#ffffff" fill-opacity="0.15"/>
+  <!-- Lightning bolt / Quest spark -->
+  <path d="M54 26 L38 52 H49 L46 74 L64 46 H52 L56 26 Z" fill="url(#swordGrad)" stroke="#b45309" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>
