@@ -66,14 +66,14 @@ export const Navbar: React.FC = () => {
               <div>
                 <div className="flex items-center gap-1 sm:gap-1.5">
                   <span className="font-extrabold text-base sm:text-xl tracking-tight text-slate-900 group-hover:text-brand-600 transition-colors">
-                    LifeQuest
+                    Cadence
                   </span>
                   <span className="bg-brand-100 text-brand-800 text-[9px] sm:text-[10px] font-black uppercase px-1.5 sm:px-2 py-0.2 rounded-full border border-brand-200">
                     PWA
                   </span>
                 </div>
                 <p className="text-[10px] text-slate-500 font-bold -mt-0.5 hidden sm:block">
-                  Level Up Your Life & Engineering
+                  Turn Daily Tasks Into a Video Game
                 </p>
               </div>
             </div>
@@ -319,7 +319,7 @@ export const Navbar: React.FC = () => {
             <div className="w-12 h-1 bg-slate-300 rounded-full mx-auto" />
             
             <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-              <h3 className="text-base font-black text-slate-900">LifeQuest Expeditions</h3>
+              <h3 className="text-base font-black text-slate-900">Cadence Expeditions</h3>
               <button 
                 onClick={() => setIsMobileMoreOpen(false)}
                 className="p-1 rounded-xl text-slate-400 hover:text-slate-600"

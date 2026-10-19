@@ -3,6 +3,7 @@ import { useGame } from '../../context/GameContext';
 import { PipMascot, MascotMood } from '../mascot/PipMascot';
 import { QuestCard } from '../quests/QuestCard';
 import { BossRaidBanner } from '../boss/BossRaidBanner';
+import { QuickNoteInput } from '../quests/QuickNoteInput';
 import { 
   Flame, 
   CheckCircle2, 
@@ -195,7 +196,10 @@ export const PlayerHome: React.FC = () => {
         </div>
       </section>
 
-      {/* WEEKLY RAID BOSS BATTLE BANNER */}
+      {/* 1. YOU WRITE YOUR TASKS: QUICK NOTE MAGIC PARSER */}
+      <QuickNoteInput />
+
+      {/* 2 & 3. TASKS BECOME QUESTS & YOU FIGHT THE BOSS */}
       <BossRaidBanner />
 
       {/* RECOMMENDED NEXT MISSION (APEX TARGET) */}

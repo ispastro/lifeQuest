@@ -69,8 +69,10 @@ interface GameContextType {
   completeOnboarding: (data: { profile: Partial<PlayerProfile>; campaigns?: Campaign[]; quests?: Quest[] }) => void;
   setIsOnboardingOpen: (open: boolean) => void;
   toggleQuestCompletion: (questId: string) => void;
+  toggleQuestSubstep: (questId: string, substepId: string) => void;
   completeQuest: (questId: string, notes?: string, evidence?: string) => void;
   addQuest: (quest: Omit<Quest, 'id' | 'completed' | 'focusTimeSpent'>) => void;
+  addMultipleQuests: (quests: Omit<Quest, 'id' | 'completed' | 'focusTimeSpent'>[]) => void;
   updateQuest: (quest: Quest) => void;
   deleteQuest: (questId: string) => void;
   unlockSkill: (skillId: string) => void;
@@ -469,8 +471,65 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       id: `quest-${Date.now()}`,
       completed: false,
       focusTimeSpent: 0,
+      substeps: newQuestData.substeps || (newQuestData.acceptanceCriteria || []).map((c, i) => ({
+        id: `sub-${Date.now()}-${i}`,
+        text: c,
+        completed: false,
+      })),
     };
     setQuests(prev => [newQuest, ...prev]);
+  };
+
+  const addMultipleQuests = (newQuestsData: Omit<Quest, 'id' | 'completed' | 'focusTimeSpent'>[]) => {
+    sounds.playCoin();
+    const created: Quest[] = newQuestsData.map((data, index) => ({
+      ...data,
+      id: `quest-${Date.now()}-${index}`,
+      completed: false,
+      focusTimeSpent: 0,
+      substeps: data.substeps || (data.acceptanceCriteria || []).map((c, i) => ({
+        id: `sub-${Date.now()}-${index}-${i}`,
+        text: c,
+        completed: false,
+      })),
+    }));
+    setQuests(prev => [...created, ...prev]);
+  };
+
+  const toggleQuestSubstep = (questId: string, substepId: string) => {
+    const targetQuest = quests.find(q => q.id === questId);
+    if (!targetQuest) return;
+
+    const existing = targetQuest.substeps || targetQuest.acceptanceCriteria.map((c, i) => ({
+      id: `sub-${i}`,
+      text: c,
+      completed: false,
+    }));
+
+    let becameCompleted = false;
+    const updated = existing.map(s => {
+      if (s.id === substepId) {
+        const nextState = !s.completed;
+        if (nextState) becameCompleted = true;
+        return { ...s, completed: nextState };
+      }
+      return s;
+    });
+
+    const allFinished = updated.length > 0 && updated.every(s => s.completed);
+
+    setQuests(prev => prev.map(q => q.id === questId ? { ...q, substeps: updated } : q));
+
+    if (becameCompleted) {
+      damageBoss(250, true);
+      sounds.playBossHit();
+
+      if (allFinished && !targetQuest.completed) {
+        completeQuest(questId);
+      }
+    } else {
+      sounds.playClick();
+    }
   };
 
   const updateQuest = (updated: Quest) => {
@@ -841,8 +900,10 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         completeOnboarding,
         setIsOnboardingOpen,
         toggleQuestCompletion,
+        toggleQuestSubstep,
         completeQuest,
         addQuest,
+        addMultipleQuests,
         updateQuest,
         deleteQuest,
         unlockSkill,

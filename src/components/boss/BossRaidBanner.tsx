@@ -5,7 +5,10 @@ import { Sword, Zap, ShieldAlert, Sparkles, ChevronRight, RotateCcw } from 'luci
 import { sounds } from '../../utils/soundEffects';
 
 export const BossRaidBanner: React.FC = () => {
-  const { currentBoss, bossDamageFloater, setActiveTab, resetBoss } = useGame();
+  const { currentBoss, bossDamageFloater, setActiveTab, resetBoss, quests, startFocusMode } = useGame();
+
+  const todayBossQuest = quests.find(q => q.scheduledDate === '2026-10-19' && !q.completed && (q.isDailyBoss || q.difficulty === 'Epic' || q.difficulty === 'Hard')) 
+    || quests.find(q => q.scheduledDate === '2026-10-19' && !q.completed);
 
   const hpPercent = Math.max(0, Math.min(100, Math.round((currentBoss.currentHp / currentBoss.maxHp) * 100)));
   const isLowHp = hpPercent < 30;
@@ -60,7 +63,7 @@ export const BossRaidBanner: React.FC = () => {
               <span>{currentBoss.name}</span>
             </h3>
             <p className="text-xs text-purple-200/80 font-medium line-clamp-1 mt-0.5">
-              {currentBoss.title} • Weakness: <strong className="text-yellow-300">{currentBoss.weakness}</strong>
+              {todayBossQuest ? `Embodying Apex Task: "${todayBossQuest.title}"` : `${currentBoss.title} • Weakness: ${currentBoss.weakness}`}
             </p>
           </div>
 
@@ -96,7 +99,7 @@ export const BossRaidBanner: React.FC = () => {
               />
             </div>
             <div className="flex items-center justify-between text-[10px] text-slate-400 font-semibold px-0.5">
-              <span>Deal damage by completing quests today</span>
+              <span>Small steps hurt the boss • Finish all steps to win</span>
               <span>Reward: +{currentBoss.rewardXp} XP • +{currentBoss.rewardGems} Gems</span>
             </div>
           </div>
@@ -118,13 +121,25 @@ export const BossRaidBanner: React.FC = () => {
             />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {todayBossQuest && !currentBoss.defeated && (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  startFocusMode(todayBossQuest);
+                }}
+                className="btn-tactile-primary py-2 px-3.5 text-xs font-black gap-1.5 touch-manipulation whitespace-nowrap bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-tactile-orange"
+              >
+                <Sword className="w-3.5 h-3.5" />
+                <span>Fight Boss ⚔️</span>
+              </button>
+            )}
+
             <button
               onClick={() => { sounds.playClick(); setActiveTab('boss'); }}
-              className="btn-tactile-primary py-2 px-4 text-xs font-black gap-1.5 touch-manipulation whitespace-nowrap bg-purple-600 border-purple-800 hover:bg-purple-500"
+              className="px-3 py-2 rounded-2xl bg-white/10 hover:bg-white/20 text-xs font-bold text-purple-200 transition-colors"
             >
-              <span>Battle Arena</span>
-              <ChevronRight className="w-3.5 h-3.5" />
+              <span>Arena</span>
             </button>
 
             {currentBoss.defeated && (

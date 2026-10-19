@@ -42,6 +42,9 @@ export interface Quest {
   whyItMatters: string;
   expectedResult: string;
   acceptanceCriteria: string[];
+  substeps?: { id: string; text: string; completed: boolean }[];
+  isDailyBoss?: boolean;
+  timeOfDay?: 'morning' | 'afternoon' | 'evening';
   notes?: string;
   evidence?: string;
   focusTimeSpent: number; // in seconds

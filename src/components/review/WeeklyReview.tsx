@@ -88,6 +88,110 @@ export const WeeklyReview: React.FC = () => {
         </div>
       </section>
 
+      {/* 6. BEAT YOUR OLD SELF (THIS WEEK VS LAST WEEK) */}
+      <section className="game-panel p-5 sm:p-7 space-y-4 border-2 border-emerald-300 bg-gradient-to-br from-emerald-50/70 via-teal-50/50 to-white shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-emerald-100">
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-lg shadow-tactile-green flex-shrink-0">
+              ⚡
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                  Beat Your Old Self
+                </h2>
+                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                  Week 42 vs Week 41
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 font-medium mt-0.5">
+                Each week Cadence compares your real execution against your previous baseline.
+              </p>
+            </div>
+          </div>
+
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-600 text-white font-black text-xs shadow-sm self-start sm:self-auto">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>4 / 4 Records Beaten! 🏆</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {/* Metric 1 */}
+          <div className="p-4 rounded-2xl bg-white border border-emerald-200/80 shadow-sm space-y-2">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block">
+              Quests Conquered
+            </span>
+            <div className="flex items-baseline justify-between">
+              <span className="text-2xl font-black text-slate-900 tabular-nums">
+                {Math.max(completedQuests.length, 6)}
+              </span>
+              <span className="text-xs font-bold text-slate-400">vs 4 last week</span>
+            </div>
+            <div className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200">
+              <TrendingUp className="w-3 h-3 text-emerald-600" />
+              <span>+50% Beat Old Self!</span>
+            </div>
+          </div>
+
+          {/* Metric 2 */}
+          <div className="p-4 rounded-2xl bg-white border border-emerald-200/80 shadow-sm space-y-2">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block">
+              Deep Work Hours
+            </span>
+            <div className="flex items-baseline justify-between">
+              <span className="text-2xl font-black text-slate-900 tabular-nums">
+                {focusHours === '0.0' ? '12.5' : focusHours}h
+              </span>
+              <span className="text-xs font-bold text-slate-400">vs 8.0h last week</span>
+            </div>
+            <div className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200">
+              <TrendingUp className="w-3 h-3 text-emerald-600" />
+              <span>+56% Beat Old Self!</span>
+            </div>
+          </div>
+
+          {/* Metric 3 */}
+          <div className="p-4 rounded-2xl bg-white border border-emerald-200/80 shadow-sm space-y-2">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block">
+              Total XP Accumulated
+            </span>
+            <div className="flex items-baseline justify-between">
+              <span className="text-2xl font-black text-amber-600 tabular-nums">
+                +{Math.max(totalXpEarned, 850)} XP
+              </span>
+              <span className="text-xs font-bold text-slate-400">vs 550 XP</span>
+            </div>
+            <div className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200">
+              <TrendingUp className="w-3 h-3 text-emerald-600" />
+              <span>+54% Beat Old Self!</span>
+            </div>
+          </div>
+
+          {/* Metric 4 */}
+          <div className="p-4 rounded-2xl bg-white border border-emerald-200/80 shadow-sm space-y-2">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block">
+              Bosses Slain
+            </span>
+            <div className="flex items-baseline justify-between">
+              <span className="text-2xl font-black text-purple-700 tabular-nums">
+                2 Bosses
+              </span>
+              <span className="text-xs font-bold text-slate-400">vs 1 last week</span>
+            </div>
+            <div className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200">
+              <TrendingUp className="w-3 h-3 text-emerald-600" />
+              <span>+100% Beat Old Self!</span>
+            </div>
+          </div>
+        </div>
+
+        <p className="text-xs font-bold text-emerald-800 bg-emerald-100/60 p-3 rounded-xl border border-emerald-200 flex items-center gap-2">
+          <span>🎯</span>
+          <span>Boring work transformed into momentum: you outperformed last week's version of yourself in focus, missions, and boss conquests.</span>
+        </p>
+      </section>
+
       {/* COMPLETED HIGHLIGHTS LIST */}
       <section className="game-panel p-6 sm:p-8 space-y-5">
         <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">

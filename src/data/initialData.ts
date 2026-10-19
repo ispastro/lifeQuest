@@ -127,6 +127,14 @@ export const initialQuests: Quest[] = [
     ],
     focusTimeSpent: 1800, // 30 mins already
     isRecommended: true,
+    isDailyBoss: true,
+    timeOfDay: 'morning',
+    substeps: [
+      { id: 'sub-1', text: 'Write WebRTC MediaStreamTrack buffer adapter with ring buffer', completed: true },
+      { id: 'sub-2', text: 'Implement RTCP receiver feedback loop to throttle speech sample rate', completed: false },
+      { id: 'sub-3', text: 'Run end-to-end latency benchmarks on local test harness', completed: false },
+      { id: 'sub-4', text: 'Commit and trigger GitHub Actions integration test suite', completed: false },
+    ],
   },
   {
     id: 'quest-today-2',

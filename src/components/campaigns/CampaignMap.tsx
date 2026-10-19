@@ -42,13 +42,13 @@ export const CampaignMap: React.FC = () => {
           <div className="space-y-2 max-w-xl">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold border border-purple-400/30">
               <Flag className="w-3.5 h-3.5" />
-              Strategic Campaign Frontlines
+              Strategic Chapters
             </span>
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              Campaign Progression Map
+              Big Goals As Story Chapters
             </h1>
             <p className="text-xs sm:text-sm text-purple-100 font-medium">
-              Every daily quest fuels a specific long-term milestone. No wasted motion.
+              A big dream, like starting a business, is split into chapters. Finish one chapter, then go to the next.
             </p>
           </div>
 
@@ -101,7 +101,7 @@ export const CampaignMap: React.FC = () => {
                   {selectedCampaign.name}
                 </h2>
                 <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">
-                  {selectedCampaign.completedMilestones} / {selectedCampaign.totalMilestones} Milestones
+                  {selectedCampaign.completedMilestones} / {selectedCampaign.totalMilestones} Chapters Conquered
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
@@ -128,7 +128,7 @@ export const CampaignMap: React.FC = () => {
         {/* Milestone Progression Winding Map */}
         <div className="space-y-4">
           <h3 className="text-sm font-extrabold uppercase tracking-wider text-slate-500">
-            Milestone Trail
+            Story Chapters Trail
           </h3>
 
           <div className="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-3 sm:before:left-4 before:top-3 before:bottom-3 before:w-1 before:bg-slate-200">
@@ -169,10 +169,10 @@ export const CampaignMap: React.FC = () => {
                             ? 'bg-amber-100 text-amber-800'
                             : 'bg-slate-200 text-slate-600'
                         }`}>
-                          {isCompleted ? 'Conquered' : isInProgress ? 'Active Frontline' : 'Locked'}
+                          {isCompleted ? 'Conquered' : isInProgress ? 'Active Chapter' : 'Locked'}
                         </span>
                         <span className="text-xs font-bold text-slate-400">
-                          Milestone #{m.order}
+                          Chapter #{m.order}
                         </span>
                       </div>
 

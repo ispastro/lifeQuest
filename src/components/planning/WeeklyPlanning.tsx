@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useGame } from '../../context/GameContext';
 import { PipMascot } from '../mascot/PipMascot';
+import { QuickNoteInput } from '../quests/QuickNoteInput';
 import { 
   CheckCircle2, 
   Calendar, 
@@ -198,6 +199,12 @@ export const WeeklyPlanning: React.FC = () => {
                 {currentStep === 3 ? 'Carve Outcomes into Discrete Quests' : 'Assign Quests to 7-Day Stages'}
               </h2>
             </div>
+
+            {currentStep === 3 && (
+              <div className="mb-4">
+                <QuickNoteInput />
+              </div>
+            )}
 
             <div className="space-y-3">
               {quests.slice(0, 4).map((q) => (

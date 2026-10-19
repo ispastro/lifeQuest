@@ -161,6 +161,12 @@ export const CharacterCreationWizard: React.FC = () => {
         acceptanceCriteria: ['Write implementation code', 'Run automated integration test suite', 'Verify performance bounds'],
         focusTimeSpent: 1200,
         isRecommended: true,
+        isDailyBoss: true,
+        substeps: [
+          { id: 'sub-c1-1', text: 'Write implementation code', completed: false },
+          { id: 'sub-c1-2', text: 'Run automated integration test suite', completed: false },
+          { id: 'sub-c1-3', text: 'Verify performance bounds', completed: false },
+        ],
       },
       {
         id: 'quest-today-2',

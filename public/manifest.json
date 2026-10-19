@@ -1,8 +1,8 @@
 {
-  "id": "com.lifequest.app",
-  "short_name": "LifeQuest",
-  "name": "LifeQuest — Gamified Productivity PWA",
-  "description": "Turn weekly planning, daily execution, engineering mastery, and personal consistency into an engaging game world.",
+  "id": "com.cadence.app",
+  "short_name": "Cadence",
+  "name": "Cadence — Turn Daily Tasks Into a Video Game",
+  "description": "An app that turns your daily tasks into a video game, just for you. Write quick notes, fight daily bosses, build streaks, and beat your old self.",
   "icons": [
     {
       "src": "/icon-192.png",
