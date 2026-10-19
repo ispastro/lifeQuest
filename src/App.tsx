@@ -17,6 +17,7 @@ import { CommandPalette } from './components/common/CommandPalette';
 import { CharacterCreationWizard } from './components/onboarding/CharacterCreationWizard';
 import { PwaInstallPrompt } from './components/common/PwaInstallPrompt';
 import { BossBattleArena } from './components/boss/BossBattleArena';
+import { AuthModal } from './components/auth/AuthModal';
 
 const AppContent: React.FC = () => {
   const { activeTab, toggleCommandPalette, profile } = useGame();
@@ -82,6 +83,7 @@ const AppContent: React.FC = () => {
       <CommandPalette />
       <CharacterCreationWizard />
       <PwaInstallPrompt />
+      <AuthModal />
     </div>
   );
 };

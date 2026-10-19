@@ -49,6 +49,7 @@ interface GameContextType {
   isFocusModeOpen: boolean;
   isCommandPaletteOpen: boolean;
   isOnboardingOpen: boolean;
+  isAuthModalOpen: boolean;
   celebration: CelebrationPayload | null;
   setActiveTab: (tab: ActiveTab) => void;
   setSelectedQuest: (quest: Quest | null) => void;
@@ -59,6 +60,11 @@ interface GameContextType {
   damageBoss: (amount: number, isCrit?: boolean) => void;
   switchBoss: (bossId: string) => void;
   resetBoss: () => void;
+  openAuthModal: () => void;
+  closeAuthModal: () => void;
+  createAccount: (data: { name: string; email: string; password?: string; pinCode?: string; title?: string; playerClass?: string }) => void;
+  loginAccount: (email: string, password?: string) => boolean;
+  logoutAccount: () => void;
   startOnboarding: () => void;
   completeOnboarding: (data: { profile: Partial<PlayerProfile>; campaigns?: Campaign[]; quests?: Quest[] }) => void;
   setIsOnboardingOpen: (open: boolean) => void;
@@ -95,6 +101,7 @@ const STORAGE_KEYS = {
   ACHIEVEMENTS: 'lifequest_achievements_v2',
   SHOP: 'lifequest_shop_v2',
   BOSS: 'lifequest_boss_v2',
+  ACCOUNTS: 'lifequest_accounts_v2',
 };
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -146,6 +153,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [focusQuest, setFocusQuest] = useState<Quest | null>(null);
   const [isFocusModeOpen, setIsFocusModeOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [celebration, setCelebration] = useState<CelebrationPayload | null>(null);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState<boolean>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.PROFILE);
@@ -640,6 +648,124 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const openAuthModal = () => {
+    sounds.playClick();
+    setIsAuthModalOpen(true);
+  };
+
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
+  };
+
+  const createAccount = (data: { 
+    name: string; 
+    email: string; 
+    password?: string; 
+    pinCode?: string; 
+    title?: string; 
+    playerClass?: string 
+  }) => {
+    sounds.playLevelUp();
+    triggerConfetti();
+
+    const accountId = `usr-${Date.now()}`;
+    const newProfileUpdates: Partial<PlayerProfile> = {
+      name: data.name,
+      email: data.email,
+      accountId,
+      isRegistered: true,
+      createdAt: new Date().toISOString(),
+      title: data.title || profile.title,
+      playerClass: data.playerClass || profile.playerClass,
+      pinCode: data.pinCode,
+      onboardingCompleted: true,
+    };
+
+    setProfile(prev => ({
+      ...prev,
+      ...newProfileUpdates,
+      gems: prev.gems + 50,
+    }));
+
+    // Save to stored accounts catalog
+    try {
+      const existing = localStorage.getItem(STORAGE_KEYS.ACCOUNTS);
+      const accountsList = existing ? JSON.parse(existing) : [];
+      const updatedList = [
+        ...accountsList.filter((a: any) => a.email.toLowerCase() !== data.email.toLowerCase()),
+        {
+          id: accountId,
+          email: data.email,
+          name: data.name,
+          title: data.title || profile.title,
+          password: data.password || '',
+          pinCode: data.pinCode || '',
+          createdAt: new Date().toISOString(),
+          lastLoginAt: new Date().toISOString(),
+        }
+      ];
+      localStorage.setItem(STORAGE_KEYS.ACCOUNTS, JSON.stringify(updatedList));
+    } catch {
+      // ignore
+    }
+
+    setIsAuthModalOpen(false);
+
+    setCelebration({
+      type: 'level',
+      title: `Account Registered!`,
+      subtitle: `Welcome aboard, ${data.name}! +50 Bonus Gems Awarded 💎`,
+      gems: 50,
+    });
+  };
+
+  const loginAccount = (email: string, password?: string): boolean => {
+    try {
+      const existing = localStorage.getItem(STORAGE_KEYS.ACCOUNTS);
+      const accountsList = existing ? JSON.parse(existing) : [];
+      const found = accountsList.find((a: any) => a.email.toLowerCase() === email.toLowerCase());
+
+      if (found) {
+        if (found.password && password && found.password !== password) {
+          return false;
+        }
+
+        sounds.playLevelUp();
+        triggerConfetti();
+        setProfile(prev => ({
+          ...prev,
+          name: found.name || prev.name,
+          email: found.email,
+          title: found.title || prev.title,
+          accountId: found.id,
+          isRegistered: true,
+          pinCode: found.pinCode,
+        }));
+        setIsAuthModalOpen(false);
+        setCelebration({
+          type: 'level',
+          title: `Welcome back, ${found.name}!`,
+          subtitle: `Local adventure vault authenticated.`,
+        });
+        return true;
+      }
+    } catch {
+      // ignore
+    }
+    return false;
+  };
+
+  const logoutAccount = () => {
+    sounds.playClick();
+    setProfile(prev => ({
+      ...prev,
+      isRegistered: false,
+      email: undefined,
+      accountId: undefined,
+      pinCode: undefined,
+    }));
+  };
+
   const startOnboarding = () => {
     sounds.playClick();
     setIsOnboardingOpen(true);
@@ -695,6 +821,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isFocusModeOpen,
         isCommandPaletteOpen,
         isOnboardingOpen,
+        isAuthModalOpen,
         celebration,
         setActiveTab,
         setSelectedQuest,
@@ -705,6 +832,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         damageBoss,
         switchBoss,
         resetBoss,
+        openAuthModal,
+        closeAuthModal,
+        createAccount,
+        loginAccount,
+        logoutAccount,
         startOnboarding,
         completeOnboarding,
         setIsOnboardingOpen,

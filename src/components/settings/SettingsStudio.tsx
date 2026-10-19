@@ -13,7 +13,14 @@ import {
   Volume2, 
   Map, 
   Save,
-  Check
+  Check,
+  ShieldCheck,
+  UserCheck,
+  UserPlus,
+  KeyRound,
+  LogOut,
+  Lock,
+  Mail
 } from 'lucide-react';
 import { AppTheme } from '../../types';
 import { sounds } from '../../utils/soundEffects';
@@ -28,7 +35,9 @@ export const SettingsStudio: React.FC = () => {
     exportData, 
     importData, 
     resetToDefaults,
-    startOnboarding 
+    startOnboarding,
+    openAuthModal,
+    logoutAccount 
   } = useGame();
 
   // Profile Form state
@@ -155,6 +164,137 @@ export const SettingsStudio: React.FC = () => {
             </p>
           </div>
         </div>
+      </section>
+
+      {/* PLAYER ACCOUNT & SECURITY VAULT CARD */}
+      <section className="game-panel p-5 sm:p-7 space-y-4 border-2 border-slate-200">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+          <div className="flex items-center gap-2">
+            <div className="p-2 rounded-xl bg-indigo-100 text-indigo-700">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-lg font-black text-slate-900">Hero Account & Security Vault</h2>
+              <p className="text-xs text-slate-500 font-medium">
+                Local-first authentication, multi-device readiness, and PIN save protection.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {profile.isRegistered ? (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                Registered & Secured
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-amber-100 text-amber-800 border border-amber-300">
+                <span className="w-2 h-2 rounded-full bg-amber-500" />
+                Guest / Sandbox Mode
+              </span>
+            )}
+          </div>
+        </div>
+
+        {profile.isRegistered ? (
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1">
+                  <Mail className="w-3 h-3 text-slate-400" />
+                  <span>Registered Email</span>
+                </span>
+                <p className="text-xs font-extrabold text-slate-800 truncate">
+                  {profile.email || 'Registered Adventurer'}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1">
+                  <Lock className="w-3 h-3 text-slate-400" />
+                  <span>Security Protection</span>
+                </span>
+                <p className="text-xs font-extrabold text-emerald-700 flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  {profile.pinCode ? 'PIN Protected' : 'Active Account'}
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1">
+                  <KeyRound className="w-3 h-3 text-slate-400" />
+                  <span>Vault Account ID</span>
+                </span>
+                <p className="text-xs font-mono font-bold text-slate-600 truncate">
+                  {profile.accountId || 'HERO-PRIMARY-VAULT'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+              <p className="text-xs text-slate-500 font-medium">
+                Your character data, XP progression, and bazaar inventory are permanently linked to your adventurer profile.
+              </p>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={openAuthModal}
+                  className="btn-tactile-secondary py-2 px-3.5 text-xs font-bold gap-1.5"
+                >
+                  <UserCheck className="w-3.5 h-3.5 text-brand-600" />
+                  <span>Switch / Access Vault</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (window.confirm('Sign out of your account and switch to Guest Mode? Your progress is saved.')) {
+                      logoutAccount();
+                    }
+                  }}
+                  className="px-3.5 py-2 rounded-2xl border border-slate-200 text-slate-600 hover:text-rose-700 hover:bg-rose-50 text-xs font-bold flex items-center gap-1.5 transition-all"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border border-amber-200 space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black flex-shrink-0 shadow-tactile-orange">
+                ⭐
+              </div>
+              <div>
+                <h4 className="text-sm font-black text-slate-900">
+                  Save your hero & earn +50 Bonus Gems!
+                </h4>
+                <p className="text-xs text-slate-600 font-medium mt-0.5">
+                  You are currently playing in Guest Mode. Register an account to protect your progress with a PIN, enable multi-device sync, and unlock extra starting gems.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <button
+                type="button"
+                onClick={openAuthModal}
+                className="btn-tactile-primary py-2.5 px-5 text-xs font-black gap-2 shadow-tactile-green"
+              >
+                <UserPlus className="w-4 h-4" />
+                <span>Create Free Account (+50 💎)</span>
+              </button>
+              <button
+                type="button"
+                onClick={openAuthModal}
+                className="btn-tactile-secondary py-2.5 px-4 text-xs font-bold gap-1.5"
+              >
+                <KeyRound className="w-3.5 h-3.5 text-slate-600" />
+                <span>Sign In to Existing Account</span>
+              </button>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* EXPEDITION SETUP WIZARD CARD */}

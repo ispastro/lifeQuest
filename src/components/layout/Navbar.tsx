@@ -18,12 +18,14 @@ import {
   History,
   Settings,
   Search,
-  Sword
+  Sword,
+  UserPlus,
+  UserCheck
 } from 'lucide-react';
 import { ActiveTab } from '../../types';
 
 export const Navbar: React.FC = () => {
-  const { profile, activeTab, setActiveTab, toggleSound, toggleCommandPalette } = useGame();
+  const { profile, activeTab, setActiveTab, toggleSound, toggleCommandPalette, openAuthModal } = useGame();
   const [isMobileMoreOpen, setIsMobileMoreOpen] = useState(false);
 
   const xpPercent = Math.min(100, Math.round((profile.currentXp / profile.xpToNextLevel) * 100));
@@ -159,6 +161,33 @@ export const Navbar: React.FC = () => {
                 <Search className="w-3.5 h-3.5 text-slate-400" />
                 <span className="text-[10px] font-mono text-slate-400">⌘K</span>
               </button>
+
+              {/* Account / Hero Vault Trigger */}
+              {profile.isRegistered ? (
+                <button
+                  onClick={openAuthModal}
+                  className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200/90 rounded-2xl text-xs font-bold text-slate-700 active:scale-95 transition-all cursor-pointer shadow-sm touch-manipulation"
+                  title={`Hero Vault: Registered as ${profile.email || profile.name}. Click to switch or manage account.`}
+                >
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse flex-shrink-0" />
+                  <span className="hidden sm:inline font-extrabold max-w-[85px] truncate text-slate-800">
+                    {profile.name}
+                  </span>
+                  <UserCheck className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                </button>
+              ) : (
+                <button
+                  onClick={openAuthModal}
+                  className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-2xl font-black text-xs shadow-tactile-orange active:translate-y-0.5 transition-all cursor-pointer touch-manipulation"
+                  title="Create an account to save your hero progress (+50 Bonus Gems)"
+                >
+                  <UserPlus className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span className="hidden sm:inline">Save Hero</span>
+                  <span className="bg-white/25 text-white text-[10px] px-1 py-0.2 rounded font-black hidden md:inline">
+                    +50💎
+                  </span>
+                </button>
+              )}
 
               {/* Settings Gear Shortcut */}
               <button
@@ -296,6 +325,45 @@ export const Navbar: React.FC = () => {
                 className="p-1 rounded-xl text-slate-400 hover:text-slate-600"
               >
                 <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Mobile Account Vault Card */}
+            <div className="p-3.5 rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex items-center justify-between shadow-md">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center font-black text-white text-xs shadow-tactile-green">
+                  {profile.name ? profile.name.trim().split(/\s+/).map(n => n[0]).slice(0, 2).join('').toUpperCase() : 'LQ'}
+                </div>
+                <div>
+                  <div className="text-xs font-black flex items-center gap-1.5">
+                    <span className="text-white">{profile.name}</span>
+                    {profile.isRegistered ? (
+                      <span className="bg-emerald-500/20 text-emerald-300 text-[9px] px-1.5 py-0.2 rounded font-black border border-emerald-500/30">
+                        SAVED
+                      </span>
+                    ) : (
+                      <span className="bg-amber-500/20 text-amber-300 text-[9px] px-1.5 py-0.2 rounded font-black border border-amber-500/30">
+                        GUEST
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[10px] text-slate-300 truncate max-w-[140px]">
+                    {profile.isRegistered ? (profile.email || 'Registered Hero') : 'Unsaved Guest Mode'}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setIsMobileMoreOpen(false);
+                  openAuthModal();
+                }}
+                className={`px-3 py-1.5 rounded-xl font-black text-xs shadow-sm active:scale-95 transition-all touch-manipulation ${
+                  profile.isRegistered 
+                    ? 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
+                    : 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-tactile-orange'
+                }`}
+              >
+                {profile.isRegistered ? 'Hero Vault' : 'Save (+50💎)'}
               </button>
             </div>
 

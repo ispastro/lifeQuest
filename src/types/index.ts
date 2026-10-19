@@ -124,6 +124,11 @@ export interface PlayerProfile {
   avatarColor: string;
   playerClass?: string;
   onboardingCompleted?: boolean;
+  email?: string;
+  isRegistered?: boolean;
+  accountId?: string;
+  createdAt?: string;
+  pinCode?: string;
 }
 
 export type ActiveTab = 
